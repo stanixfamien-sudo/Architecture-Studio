@@ -1,0 +1,38 @@
+COLLECTION D'ICONES CLASSEE PAR FAMILLE
+Sources : Bootstrap Icons, Lucide, Tabler Icons.
+SVG originaux conservés. Classement automatique basé sur les noms des fichiers ;
+les icônes ambigües sont regroupées dans Divers_a_classer.
+
+Total SVG : 10364
+Familles : 30
+
+Alimentation_et_cuisine: 139
+Animaux: 36
+Commerce_et_achats: 304
+Communication_et_messages: 430
+Design_et_mise_en_page: 470
+Divers_a_classer: 1654
+Documents_et_fichiers: 346
+Education_et_recherche: 144
+Evenements_et_divertissement: 47
+Finance_et_paiements: 427
+Maison_et_batiments: 153
+Marques_et_logos: 32
+Medias_et_creation: 549
+Mobilier_et_objets: 31
+Musique_et_instruments: 44
+Nature_et_meteo: 147
+Navigation_et_interface: 1793
+Outils_et_materiaux: 39
+Personnes_et_profils: 180
+Reseaux_sociaux_et_partage: 599
+Sante_et_bien_etre: 87
+Science_et_ingenierie: 213
+Securite_et_confidentialite: 185
+Sport_et_jeux: 135
+Symboles_et_formes: 986
+Technologie_et_informatique: 783
+Temps_et_calendrier: 182
+Transport_et_vehicules: 157
+Vetements_et_accessoires: 32
+Voyage_et_tourisme: 40
