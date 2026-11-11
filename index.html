@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Architecture Studio</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{--bg:#f6f7f8;--paper:#fff;--ink:#202124;--muted:#70757d;--line:#e6e8eb;--accent:#6657d9;--shadow:0 8px 28px #20212412}
+*{box-sizing:border-box}html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}button,input,textarea,select{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:10px;padding:9px 12px}button:hover{border-color:#b9b4ed;background:#faf9ff}button.primary{background:var(--accent);border-color:var(--accent);color:white}button.danger{color:#b42318}.app{height:100%;display:flex;flex-direction:column;min-height:0}.topbar{height:64px;display:flex;align-items:center;gap:12px;padding:0 18px;background:#fff;border-bottom:1px solid var(--line);z-index:5}.brand{font-weight:750;white-space:nowrap}.brand small{display:block;color:var(--muted);font-size:11px;font-weight:500}.project-title{min-width:100px;max-width:320px;border:0;background:transparent;font-weight:650;font-size:15px;padding:8px}.toolbar{display:flex;align-items:center;gap:7px;margin-left:auto;flex-wrap:wrap}.workspace{display:flex;flex:1;min-height:0}.side{width:280px;flex-shrink:0;background:#fff;border-right:1px solid var(--line);padding:18px;overflow:auto;z-index:3}.side.right{border-right:0;border-left:1px solid var(--line)}.side h2{font-size:14px;margin:2px 0 14px}.side p,.hint{font-size:12px;line-height:1.55;color:var(--muted)}.field{display:flex;flex-direction:column;gap:6px;margin:13px 0}.field label{font-size:12px;font-weight:650;color:#4b5058}.field input,.field textarea,.field select{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px;background:#fff;color:var(--ink)}.field textarea{min-height:110px;resize:vertical;line-height:1.5}.canvas-wrap{flex:1;min-width:0;position:relative;overflow:hidden;background-color:#f8f9fa;background-image:radial-gradient(#d9dce1 1px,transparent 1px);background-size:22px 22px;touch-action:none}.canvas{position:absolute;left:0;top:0;width:1px;height:1px;transform-origin:0 0}.edges{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}.cards{position:absolute;left:0;top:0}.card{position:absolute;width:230px;min-height:130px;background:#fff;border:1px solid #e4e5eb;border-radius:14px;box-shadow:var(--shadow);overflow:visible;touch-action:none;user-select:none}.card.selected{outline:2px solid var(--accent);outline-offset:3px}.card-head{height:8px;border-radius:14px 14px 0 0}.card-inner{padding:13px 14px}.card-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}.card-title{font-size:15px;font-weight:700;margin:5px 0 6px;overflow-wrap:anywhere}.card-desc{font-size:12px;color:#626873;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere;max-height:74px;overflow:hidden}.card-media{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}.card-media img{width:54px;height:42px;object-fit:cover;border-radius:7px;border:1px solid var(--line)}.port{position:absolute;width:13px;height:13px;border:2px solid white;background:var(--accent);border-radius:50%;z-index:2;opacity:0;transition:.15s}.card:hover .port,.card.selected .port,.connecting .port{opacity:1}.port.top{top:-7px;left:calc(50% - 6px)}.port.bottom{bottom:-7px;left:calc(50% - 6px)}.port.left{left:-7px;top:calc(50% - 6px)}.port.right{right:-7px;top:calc(50% - 6px)}.canvas-hud{position:absolute;bottom:16px;left:16px;display:flex;gap:7px;align-items:center;background:#fff;border:1px solid var(--line);padding:7px;border-radius:12px;box-shadow:var(--shadow);z-index:2}.canvas-hud span{font-size:12px;color:var(--muted);min-width:48px;text-align:center}.empty{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:min(360px,85%);pointer-events:none;color:var(--muted)}.empty strong{display:block;color:#343840;font-size:17px;margin-bottom:7px}.empty p{font-size:13px;line-height:1.5}.hidden{display:none!important}.row{display:flex;gap:8px}.row>*{flex:1}.swatches{display:flex;gap:8px;flex-wrap:wrap}.swatch{width:25px;height:25px;padding:0;border-radius:50%;border:2px solid white;outline:1px solid #d6d8de}.swatch.active{outline:2px solid var(--accent)}.status{font-size:11px;color:var(--muted);white-space:nowrap}.mobile-tools{display:none}
+@media(max-width:900px){.side.left{display:none}.side.right{position:absolute;right:0;top:64px;bottom:0;width:min(320px,90vw);box-shadow:-10px 0 30px #0001}.toolbar button .wide{display:none}.project-title{max-width:145px}.topbar{padding:0 9px;gap:6px}.toolbar{gap:4px}.toolbar button{padding:8px 9px}.brand small{display:none}}
+@media(max-width:560px){.topbar{height:auto;min-height:58px;flex-wrap:wrap;padding:8px}.brand{font-size:13px}.project-title{flex:1;max-width:none}.toolbar{width:100%;margin:0;overflow-x:auto;padding-bottom:2px}.toolbar button{white-space:nowrap;font-size:12px}.side.right{top:105px}.canvas-hud{bottom:10px;left:10px}.card{width:205px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand">Architecture Studio<small>Studio visuel • Version expérimentale</small></div>
+  <input id="projectTitle" class="project-title" aria-label="Nom du projet" value="Mon architecture">
+  <div class="toolbar">
+    <button id="addCard" class="primary">＋ <span class="wide">Carte</span></button>
+    <button id="connectBtn">↗ <span class="wide">Lier</span></button>
+    <button id="undoBtn" title="Annuler">↶</button>
+    <button id="redoBtn" title="Rétablir">↷</button>
+    <button id="saveBtn">Enregistrer</button>
+    <button id="exportBtn">Exporter</button>
+    <button id="importBtn">Importer</button>
+    <button id="panelBtn">Propriétés</button>
+  </div>
+  <input id="importFile" type="file" accept=".json,application/json" hidden>
+</header>
+<div class="workspace">
+<aside class="side left">
+  <h2>Ton espace de travail</h2>
+  <p>Construis une architecture en ajoutant des cartes, puis relie-les entre elles. Déplace les cartes librement sur le tableau.</p>
+  <button id="addCardSide" class="primary" style="width:100%">＋ Ajouter une carte</button>
+  <div class="field"><label>Organisation rapide</label><button id="autoLayout" style="width:100%">Organiser les cartes</button></div>
+  <div class="field"><label>Projet</label><button id="newProject" style="width:100%">Nouveau tableau</button></div>
+  <p class="hint">Les modifications sont sauvegardées automatiquement dans ce navigateur. Pense à exporter un fichier JSON pour conserver une copie indépendante.</p>
+  <p class="status" id="saveStatus">Prêt</p>
+</aside>
+<main id="canvasWrap" class="canvas-wrap" aria-label="Tableau de création">
+  <div id="canvas" class="canvas">
+    <svg id="edges" class="edges" width="1" height="1"><defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#8175df"/></marker></defs></svg>
+    <div id="cards" class="cards"></div>
+  </div>
+  <div id="emptyState" class="empty"><strong>Commence par créer ton architecture</strong><p>Ajoute une carte, décris un élément, puis relie-le à d’autres cartes. Tu peux zoomer et déplacer le tableau.</p></div>
+  <div class="canvas-hud"><button id="zoomOut" aria-label="Dézoomer">−</button><span id="zoomLabel">100 %</span><button id="zoomIn" aria-label="Zoomer">＋</button><button id="centerBtn">Centrer</button></div>
+</main>
+<aside id="inspector" class="side right hidden">
+  <div style="display:flex;align-items:center;justify-content:space-between"><h2>Propriétés de la carte</h2><button id="closeInspector" aria-label="Fermer">✕</button></div>
+  <div id="noSelection" class="hint">Sélectionne une carte pour modifier son contenu.</div>
+  <div id="editor" class="hidden">
+    <div class="field"><label for="cardTitle">Titre</label><input id="cardTitle" maxlength="100"></div>
+    <div class="field"><label for="cardType">Catégorie</label><select id="cardType"><option>Composant</option><option>Service</option><option>Personne</option><option>Étape</option><option>Donnée</option><option>Ressource</option><option>Note</option></select></div>
+    <div class="field"><label for="cardDesc">Description / notes</label><textarea id="cardDesc" placeholder="Décris le rôle, les détails ou les informations utiles..."></textarea></div>
+    <div class="field"><label>Couleur</label><div id="swatches" class="swatches"></div></div>
+    <div class="field"><label>Images</label><input id="imageFiles" type="file" accept="image/*" multiple><div id="imageList" class="hint"></div></div>
+    <div class="field"><label for="cardLink">Lien externe</label><input id="cardLink" type="url" placeholder="https://..."></div>
+    <div class="row"><button id="duplicateCard">Dupliquer</button><button id="deleteCard" class="danger">Supprimer</button></div>
+  </div>
+</aside>
+</div>
+</div>
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const COLORS=["#8b7ce8","#4b91d1","#45a879","#e5a342","#df7187","#6c8298","#b17bc7"];
+const STORAGE_KEY="architecture-studio-v1";
+const state={title:"Mon architecture",cards:[],links:[],selected:null,zoom:1,pan:{x:180,y:120},connectMode:false,linkStart:null,drag:null,panDrag:null,history:[],future:[],lastSaved:0};
+const canvas=$("canvas"),wrap=$("canvasWrap"),cardsEl=$("cards"),edges=$("edges");
+let saveTimer=null;
+function uid(prefix){return prefix+"-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,7)}
+function snapshot(){return JSON.stringify({title:state.title,cards:state.cards,links:state.links})}
+function remember(){state.history.push(snapshot());if(state.history.length>60)state.history.shift();state.future=[];updateHistoryButtons()}
+function restore(s){const d=JSON.parse(s);state.title=d.title||"Mon architecture";state.cards=d.cards||[];state.links=d.links||[];state.selected=null;render();$("projectTitle").value=state.title;saveSoon()}
+function undo(){if(!state.history.length)return;state.future.push(snapshot());restore(state.history.pop());updateHistoryButtons()}
+function redo(){if(!state.future.length)return;state.history.push(snapshot());restore(state.future.pop());updateHistoryButtons()}
+function updateHistoryButtons(){$("undoBtn").disabled=state.history.length<2;$("redoBtn").disabled=!state.future.length}
+function persist(){try{localStorage.setItem(STORAGE_KEY,snapshot());state.lastSaved=Date.now();$("saveStatus").textContent="Enregistré automatiquement"}catch(e){$("saveStatus").textContent="Stockage local saturé : exporte ton projet"}}
+function saveSoon(){clearTimeout(saveTimer);$("saveStatus").textContent="Enregistrement…";saveTimer=setTimeout(persist,450)}
+function addCard(x,y){remember();const c={id:uid("card"),x:x??(Math.round((wrap.clientWidth/2-state.pan.x)/state.zoom)),y:y??(Math.round((wrap.clientHeight/2-state.pan.y)/state.zoom)),title:"Nouvelle carte",type:"Composant",desc:"Ajoute ici une description.",color:COLORS[state.cards.length%COLORS.length],link:"",images:[]};state.cards.push(c);state.selected=c.id;render();saveSoon()}
+function selected(){return state.cards.find(c=>c.id===state.selected)}
+function select(id){state.selected=id;renderCards();renderInspector()}
+function cardById(id){return state.cards.find(c=>c.id===id)}
+function cardCenter(c,side){const w=230,h=Math.max(130,cardHeight(c));if(side==="top")return{x:c.x+w/2,y:c.y};if(side==="bottom")return{x:c.x+w/2,y:c.y+h};if(side==="left")return{x:c.x,y:c.y+h/2};return{x:c.x+w,y:c.y+h/2}}
+function cardHeight(c){return 112+Math.min(65,(c.desc||"").length/2.2)+(c.images&&c.images.length?52:0)}
+function render(){canvas.style.transform="translate("+state.pan.x+"px,"+state.pan.y+"px) scale("+state.zoom+")";$("zoomLabel").textContent=Math.round(state.zoom*100)+" %";$("emptyState").classList.toggle("hidden",state.cards.length>0);renderCards();renderEdges();renderInspector();$("projectTitle").value=state.title}
+function renderCards(){cardsEl.innerHTML="";state.cards.forEach(c=>{const el=document.createElement("article");el.className="card"+(state.selected===c.id?" selected":"");el.dataset.id=c.id;el.style.left=c.x+"px";el.style.top=c.y+"px";el.querySelector;const head=document.createElement("div");head.className="card-head";head.style.background=c.color;el.appendChild(head);const inner=document.createElement("div");inner.className="card-inner";const kicker=document.createElement("div");kicker.className="card-kicker";kicker.textContent=c.type||"Composant";const title=document.createElement("div");title.className="card-title";title.textContent=c.title||"Sans titre";const desc=document.createElement("div");desc.className="card-desc";desc.textContent=c.desc||"";inner.append(kicker,title,desc);if(c.images&&c.images.length){const media=document.createElement("div");media.className="card-media";c.images.slice(0,4).forEach(src=>{const img=document.createElement("img");img.src=src;img.alt="Image jointe";media.appendChild(img)});inner.appendChild(media)}if(c.link){const a=document.createElement("a");a.href=c.link;a.target="_blank";a.rel="noopener noreferrer";a.textContent="Ouvrir le lien ↗";a.style.cssText="display:inline-block;margin-top:9px;font-size:11px;color:#6657d9";a.addEventListener("pointerdown",e=>e.stopPropagation());inner.appendChild(a)}el.appendChild(inner);["top","right","bottom","left"].forEach(side=>{const p=document.createElement("button");p.className="port "+side;p.type="button";p.title="Relier depuis ce point";p.dataset.side=side;p.dataset.card=c.id;p.addEventListener("pointerdown",e=>e.stopPropagation());p.addEventListener("click",e=>{e.stopPropagation();handlePort(c.id,side)});el.appendChild(p)});el.addEventListener("pointerdown",e=>startCardDrag(e,c.id));el.addEventListener("click",e=>{if(!state.drag)select(c.id)});cardsEl.appendChild(el)})}
+function renderEdges(){const old=edges.querySelectorAll(".edge");old.forEach(n=>n.remove());let maxX=wrap.clientWidth,maxY=wrap.clientHeight;state.cards.forEach(c=>{maxX=Math.max(maxX,c.x+500);maxY=Math.max(maxY,c.y+400)});edges.setAttribute("width",maxX);edges.setAttribute("height",maxY);state.links.forEach(l=>{const a=cardById(l.from),b=cardById(l.to);if(!a||!b)return;const p1=cardCenter(a,l.fromSide||"right"),p2=cardCenter(b,l.toSide||"left"),dx=Math.max(50,Math.abs(p2.x-p1.x)*.45);const path=document.createElementNS("http://www.w3.org/2000/svg","path");path.classList.add("edge");path.setAttribute("d","M "+p1.x+" "+p1.y+" C "+(p1.x+dx)+" "+p1.y+", "+(p2.x-dx)+" "+p2.y+", "+p2.x+" "+p2.y);path.setAttribute("fill","none");path.setAttribute("stroke","#8175df");path.setAttribute("stroke-width","2.5");path.setAttribute("marker-end","url(#arrow)");edges.appendChild(path)})}
+function renderInspector(){const c=selected(),show=!!c;$("noSelection").classList.toggle("hidden",show);$("editor").classList.toggle("hidden",!show);if(!show)return;$("cardTitle").value=c.title||"";$("cardType").value=c.type||"Composant";$("cardDesc").value=c.desc||"";$("cardLink").value=c.link||"";$("imageList").textContent=(c.images||[]).length+" image(s) jointe(s)";$("swatches").innerHTML="";COLORS.forEach(color=>{const b=document.createElement("button");b.className="swatch"+(c.color===color?" active":"");b.style.background=color;b.title="Choisir cette couleur";b.addEventListener("click",()=>{remember();c.color=color;render();saveSoon()});$("swatches").appendChild(b)})}
+function updateSelected(key,value){const c=selected();if(!c)return;remember();c[key]=value;renderCards();renderEdges();saveSoon()}
+["cardTitle","cardType","cardDesc","cardLink"].forEach(id=>$(id).addEventListener("input",()=>{const key={cardTitle:"title",cardType:"type",cardDesc:"desc",cardLink:"link"}[id];const c=selected();if(c){c[key]=$(id).value;renderCards();renderEdges();saveSoon()}}));
+$("imageFiles").addEventListener("change",async e=>{const c=selected();if(!c)return;const files=Array.from(e.target.files||[]).slice(0,8);if(!files.length)return;remember();for(const file of files){if(!file.type.startsWith("image/"))continue;if(file.size>3*1024*1024){alert("Image ignorée : limite de 3 Mo par image.");continue}const data=await new Promise(resolve=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>resolve(null);r.readAsDataURL(file)});if(data)c.images.push(data)}e.target.value="";render();saveSoon()});
+function handlePort(id,side){if(!state.connectMode){state.connectMode=true;state.linkStart={id,side};$("connectBtn").textContent="Choisir l’arrivée…";return}if(!state.linkStart){state.linkStart={id,side};return}if(state.linkStart.id!==id){remember();state.links.push({id:uid("link"),from:state.linkStart.id,fromSide:state.linkStart.side,to:id,toSide:side});saveSoon()}state.linkStart=null;state.connectMode=false;$("connectBtn").textContent="↗ Lier";renderEdges()}
+function startCardDrag(e,id){if(e.button!==undefined&&e.button!==0)return;const c=cardById(id);if(!c)return;if(e.target.closest(".port"))return;e.preventDefault();select(id);remember();state.drag={id,pointer:e.pointerId,startX:e.clientX,startY:e.clientY,origX:c.x,origY:c.y,moved:false};try{e.currentTarget.setPointerCapture(e.pointerId)}catch(_){}}
+window.addEventListener("pointermove",e=>{if(!state.drag)return;const d=state.drag,c=cardById(d.id);if(!c)return;const dx=(e.clientX-d.startX)/state.zoom,dy=(e.clientY-d.startY)/state.zoom;if(Math.abs(dx)+Math.abs(dy)>2)d.moved=true;c.x=d.origX+dx;c.y=d.origY+dy;const el=cardsEl.querySelector('[data-id="'+d.id+'"]');if(el){el.style.left=c.x+"px";el.style.top=c.y+"px"}renderEdges()});
+window.addEventListener("pointerup",()=>{if(state.drag){if(state.drag.moved)saveSoon();state.drag=null}});
+wrap.addEventListener("pointerdown",e=>{if(e.target!==wrap&&e.target!==canvas&&e.target!==edges)return;if(e.button!==undefined&&e.button!==0)return;state.panDrag={x:e.clientX,y:e.clientY,px:state.pan.x,py:state.pan.y,pointer:e.pointerId};try{wrap.setPointerCapture(e.pointerId)}catch(_){}});
+wrap.addEventListener("pointermove",e=>{if(!state.panDrag)return;state.pan.x=state.panDrag.px+e.clientX-state.panDrag.x;state.pan.y=state.panDrag.py+e.clientY-state.panDrag.y;canvas.style.transform="translate("+state.pan.x+"px,"+state.pan.y+"px) scale("+state.zoom+")"});
+wrap.addEventListener("pointerup",()=>{state.panDrag=null});
+wrap.addEventListener("wheel",e=>{e.preventDefault();zoomAt(state.zoom*(e.deltaY<0?1.1:.9),e.clientX,e.clientY)},{passive:false});
+function zoomAt(z,x,y){z=Math.max(.25,Math.min(2.5,z));const rect=wrap.getBoundingClientRect(),ox=x?x-rect.left:rect.width/2,oy=y?y-rect.top:rect.height/2;state.pan.x=ox-(ox-state.pan.x)*(z/state.zoom);state.pan.y=oy-(oy-state.pan.y)*(z/state.zoom);state.zoom=z;render()}
+function center(){if(!state.cards.length){state.pan={x:wrap.clientWidth/2,y:wrap.clientHeight/2};state.zoom=1}else{const minX=Math.min(...state.cards.map(c=>c.x)),minY=Math.min(...state.cards.map(c=>c.y)),maxX=Math.max(...state.cards.map(c=>c.x+230)),maxY=Math.max(...state.cards.map(c=>c.y+150));const z=Math.min(1.2,wrap.clientWidth/(maxX-minX+100),wrap.clientHeight/(maxY-minY+100));state.zoom=Math.max(.35,z);state.pan.x=(wrap.clientWidth-(maxX-minX)*state.zoom)/2-minX*state.zoom;state.pan.y=(wrap.clientHeight-(maxY-minY)*state.zoom)/2-minY*state.zoom}render()}
+function autoLayout(){remember();state.cards.forEach((c,i)=>{c.x=50+(i%3)*300;c.y=50+Math.floor(i/3)*220});center();saveSoon()}
+function download(name,data,type){const blob=new Blob([data],{type:type}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function exportJSON(){const data=snapshot();download((state.title||"architecture").replace(/[^a-z0-9-_]/gi,"-")+".json",data,"application/json")}
+async function exportImage(format){if(!window.html2canvas){alert("La bibliothèque d’export n’est pas disponible. Vérifie ta connexion Internet puis réessaie.");return}try{const hud=document.querySelector(".canvas-hud");hud.classList.add("hidden");const shot=await html2canvas($("canvasWrap"),{backgroundColor:"#f8f9fa",scale:2,useCORS:true});hud.classList.remove("hidden");const name=(state.title||"architecture").replace(/[^a-z0-9-_]/gi,"-");if(format==="png"){const a=document.createElement("a");a.download=name+".png";a.href=shot.toDataURL("image/png");a.click()}else{const JsPDF=window.jspdf&&window.jspdf.jsPDF;if(!JsPDF)throw Error("jsPDF indisponible");const pdf=new JsPDF({orientation:shot.width>shot.height?"landscape":"portrait",unit:"px",format:[shot.width,shot.height]});pdf.addImage(shot.toDataURL("image/png"),"PNG",0,0,shot.width,shot.height);pdf.save(name+".pdf")}}catch(err){document.querySelector(".canvas-hud").classList.remove("hidden");alert("L’export a échoué. Essaie d’exporter en JSON.");console.error(err)}}
+function importJSON(file){const reader=new FileReader();reader.onload=()=>{try{const d=JSON.parse(reader.result);if(!Array.isArray(d.cards)||!Array.isArray(d.links))throw Error("Format invalide");remember();restore(JSON.stringify(d));center()}catch(e){alert("Impossible d’importer ce fichier JSON.")}};reader.readAsText(file)}
+function duplicate(){const c=selected();if(!c)return;remember();const copy=JSON.parse(JSON.stringify(c));copy.id=uid("card");copy.x+=35;copy.y+=35;copy.title=(copy.title||"Carte")+" (copie)";state.cards.push(copy);select(copy.id);saveSoon()}
+function removeSelected(){const c=selected();if(!c)return;if(!confirm("Supprimer cette carte et ses connexions ?"))return;remember();state.cards=state.cards.filter(x=>x.id!==c.id);state.links=state.links.filter(l=>l.from!==c.id&&l.to!==c.id);state.selected=null;render();saveSoon()}
+$("addCard").onclick=$("addCardSide").onclick=()=>addCard();$("connectBtn").onclick=()=>{state.connectMode=!state.connectMode;state.linkStart=null;$("connectBtn").textContent=state.connectMode?"Choisir le départ…":"↗ Lier"};
+$("undoBtn").onclick=undo;$("redoBtn").onclick=redo;$("saveBtn").onclick=()=>{persist();$("saveStatus").textContent="Enregistré"};$("exportBtn").onclick=()=>{const choice=(prompt("Format d’export : json, png ou pdf","json")||"").toLowerCase();if(choice==="json")exportJSON();else if(choice==="png"||choice==="pdf")exportImage(choice)};$("importBtn").onclick=()=>$("importFile").click();$("importFile").onchange=e=>{if(e.target.files[0])importJSON(e.target.files[0]);e.target.value=""};
+$("panelBtn").onclick=()=>$("inspector").classList.toggle("hidden");$("closeInspector").onclick=()=>$("inspector").classList.add("hidden");$("deleteCard").onclick=removeSelected;$("duplicateCard").onclick=duplicate;$("autoLayout").onclick=autoLayout;$("zoomIn").onclick=()=>zoomAt(state.zoom*1.2);$("zoomOut").onclick=()=>zoomAt(state.zoom/1.2);$("centerBtn").onclick=center;
+$("newProject").onclick=()=>{if(!confirm("Créer un nouveau tableau ? Pense à exporter le projet actuel avant de continuer."))return;remember();state.cards=[];state.links=[];state.selected=null;state.title="Nouveau tableau";render();saveSoon()};
+$("projectTitle").addEventListener("input",e=>{state.title=e.target.value;saveSoon()});
+window.addEventListener("keydown",e=>{const tag=(document.activeElement&&document.activeElement.tagName||"").toLowerCase();if(["input","textarea","select"].includes(tag))return;if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="z"){e.preventDefault();e.shiftKey?redo():undo()}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="y"){e.preventDefault();redo()}else if((e.key==="Delete"||e.key==="Backspace")&&state.selected)removeSelected();else if(e.key==="Escape"){state.connectMode=false;state.linkStart=null;$("connectBtn").textContent="↗ Lier"}});
+function init(){try{const raw=localStorage.getItem(STORAGE_KEY);if(raw){const d=JSON.parse(raw);state.title=d.title||state.title;state.cards=d.cards||[];state.links=d.links||[]}}catch(e){console.warn("Sauvegarde locale illisible",e)}$("projectTitle").value=state.title;remember();render();center()}
+init();
+})();
+</script>
+</body>
+</html>
